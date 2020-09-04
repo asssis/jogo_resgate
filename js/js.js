@@ -18,7 +18,12 @@ var pontos=0;
 var salvos=0;
 var perdidos=0;
 
+var somExplosao=document.getElementById("somExplosao");
+var somDisparo=document.getElementById("somDisparo");
+var musica=document.getElementById("musica");
 
+musica.addEventListener("ended", function(){ musica.currentTime = 0; musica.play(); }, false);
+musica.play();
 function loop(){
     if(inicio_jogo){
         movefundo();
@@ -123,7 +128,8 @@ function disparo() {
         $("#disparo").css("top",topoTiro);
         $("#disparo").css("left",tiroX);
         
-        var tempoDisparo=window.setInterval(executaDisparo, 30);    
+        var tempoDisparo=window.setInterval(executaDisparo, 30);  
+        somDisparo.play();  
     } 
  
    	    function executaDisparo() {
@@ -135,6 +141,7 @@ function disparo() {
         if(colisao2.length > 0){ 
  
             pontos=pontos+10;
+
             inimigo2X = parseInt($("#inimigo2").css("left"));
             inimigo2Y = parseInt($("#inimigo2").css("top"));
             explosao1(inimigo2X, inimigo2Y);
@@ -152,6 +159,7 @@ function disparo() {
             },20000);
         }
         if(colisao1.length > 0){ 
+
             inimigo1X = parseInt($("#inimigo1").css("left"));
             inimigo1Y = parseInt($("#inimigo1").css("top"));
             explosao1(inimigo1X, inimigo1Y);
@@ -165,7 +173,7 @@ function disparo() {
      
         }
         if(quantidade_tiros >= 2)
-        { 
+        {  
             pontos=pontos+20;
             quantidade_tiros = 0;
 
@@ -219,13 +227,14 @@ function explosao1(inimigoX, inimigoY){
     }
  
     var tempoExplosao=window.setInterval(removeExplosao, 1000);
-    $("#fundoGame").append("<div id='explosao1' style='position:absolute; background-size: 200px 85px; background-repeat: no-repeat; background-image: url(../imgs/explosao.png); ; width: 200px; height:85px;'></div>");  
+    $("#fundoGame").append("<div id='explosao1' style='position:absolute; background-size: 200px 85px; background-repeat: no-repeat; background-image: url(imgs/explosao.png); ; width: 200px; height:85px;'></div>");  
    
     var div=$("#explosao1");
     div.css("top", inimigoY);
     div.css("left", inimigoX);  
     div.animate({width:200, opacity:0}, "slow");
 
+    somExplosao.play();
     function removeExplosao(){
         div.remove();
         window.clearInterval(tempoExplosao);
@@ -241,6 +250,8 @@ function explosao3(amigoX,amigoY) {
     $("#explosao3").remove();
     window.clearInterval(tempoExplosao3);
     tempoExplosao3=null;
+
+    somExplosao.play();
     perdidos++;
     }
 }
